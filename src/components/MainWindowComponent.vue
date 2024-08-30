@@ -11,6 +11,5 @@ export default {
 <style lang="scss">
     section {
         width: 100%;
-        background-color: green;
     }
 </style>

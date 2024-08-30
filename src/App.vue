@@ -6,8 +6,6 @@
 </section>
 
 
-<RouterView />
-
 </template>
 <script>
 import SidebarComponent from "../src/components/SidebarComponent.vue"
