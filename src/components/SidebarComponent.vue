@@ -1,4 +1,5 @@
 <template lang="">
+    <div class="occ">
     <aside>
         <nav>
             <ul>
@@ -10,6 +11,7 @@
             </ul>
         </nav>
     </aside>
+</div>
 </template>
 <script>
 export default {
@@ -17,56 +19,99 @@ export default {
 }
 </script>
 <style lang="scss">
-    aside{
+    .occ{
         width: 100px;
         height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px;
+    }
 
-        nav{
-            width: 100%;
-            height: 100%;
-            background-color: rgb(255, 255, 255);
-            border-radius: 100px;
-            display: flex;
-            justify-content: center;
-            padding: 20px;
+  aside {
+    width: 100px;
+    height: 100vh;
+    padding: 10px;
+    position: fixed;
 
-            ul{
-                list-style: none;
+    nav {
+        width: 100%;
+        height: 100%;
+        border-radius: 100px;
+        padding: 20px;
+        background-color: rgb(255, 255, 255);
+        
+        ul {
+            list-style: none;
 
-                li{
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    
+                .sidebar-options-container {
+                    width: 40px;
+                    height: 40px;
+                    padding: 7px;
+                    border-radius: 100px;
+                }
 
-                    .sidebar-options-container{
-                        margin-bottom: 10px;
-                        width: 40px;
-                        height: 40px;
-                        padding: 7px;
-                        border-radius: 100px;
-                    }
+                .router-link-active .sidebar-options-container {
+                    background-color: #BDDAFF; /* Cambia il colore di sfondo a blu quando attivo */
 
-                    .router-link-active .sidebar-options-container {
-                        background-color: #BDDAFF; /* Cambia il colore di sfondo a rosso quando attivo */
-
-                        img{
-                            filter: invert(42%) sepia(89%) saturate(408%) hue-rotate(180deg) brightness(92%) contrast(92%);
-                        }
-                    }
-
-                    img{
-                        width: 100%;
-                        filter: invert(100%) sepia(0%) saturate(7015%) hue-rotate(187deg) brightness(107%) contrast(60%);
+                    img {
+                        filter: invert(42%) sepia(89%) saturate(408%) hue-rotate(180deg) brightness(92%) contrast(92%);
                     }
                 }
-                
+
+                img {
+                    width: 100%;
+                    filter: invert(100%) sepia(0%) saturate(7015%) hue-rotate(187deg) brightness(107%) contrast(60%);
+                }
             }
         }
     }
+
+
+@media (max-width: 768px) {
+    .occ{
+        width: 0px;
+        height: 0px;
+    }
+
+    aside {
+        width: calc(100% - 20px);
+        height: 100px;
+        display: flex;
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%);
+
+    nav {
+        width: 100%;
+        height: 100%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 100px;
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        background-color: rgb(255, 255, 255);
+
+        ul {
+            list-style: none;
+            width: 100%;
+
+            li {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-around;
+
+                .sidebar-options-container {
+                    margin-bottom: 10px;
+                    width: 40px;
+                    height: 40px;
+                    padding: 7px;
+                    border-radius: 100px;
+                }
+            }
+        }
+    }
+    }
+}
+
+
 </style>

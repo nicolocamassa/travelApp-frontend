@@ -23,8 +23,16 @@
       </div>
 
       <div class="form-group">
-        <label for="image_url">URL Immagine:</label>
-        <input type="text" id="image_url" v-model="form.image_url" required />
+        <label for="image_search">Cerca un'immagine:</label>
+        <input type="text" id="image_search" @input="searchImage($event.target.value)" placeholder="Cerca su Unsplash..." />
+        <div v-if="imageResults.length" class="image-results">
+          <img v-for="image in imageResults" :src="image.urls.thumb" @click="selectImage(image.urls.full)" :alt="image.alt_description" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="image_url">URL Immagine Selezionata:</label>
+        <input type="text" id="image_url" v-model="form.image_url" readonly />
       </div>
 
       <h2>Aggiungi Destinazioni</h2>
@@ -42,10 +50,9 @@
         </div>
 
         <div class="form-group">
-  <label for="vist_date">Data di Visita:</label>
-  <input type="date" id="vist_date" v-model="destination.vist_date" required />
-</div>
-
+          <label for="vist_date">Data di Visita:</label>
+          <input type="date" id="vist_date" v-model="destination.vist_date" required />
+        </div>
 
         <div class="form-group">
           <label for="image_url">URL Immagine:</label>
@@ -79,10 +86,10 @@
       <button type="submit" class="submit-button">Inserisci Viaggio</button>
     </form>
   </div>
-  </template>
-  
-  <script>
-  import axios from 'axios';
+</template>
+
+<script>
+import axios from 'axios';
 
 export default {
   data() {
@@ -105,26 +112,45 @@ export default {
             longitude: ''
           }
         ]
-      }
+      },
+      imageResults: [] // Definisci imageResults qui
     };
   },
   methods: {
     async submitForm() {
-        try {
-      const travelResponse = await axios.post('http://localhost:8000/api/travels', this.form);
-      const travelId = travelResponse.data.id;
+      try {
+        const travelResponse = await axios.post('http://localhost:8000/api/travels', this.form);
+        const travelId = travelResponse.data.id;
 
-      for (const destination of this.form.destinations) {
-        destination.travel_id = travelId; // Associa la destinazione al viaggio creato
-        await axios.post('http://localhost:8000/api/destinations', destination);
+        for (const destination of this.form.destinations) {
+          destination.travel_id = travelId;
+          await axios.post('http://localhost:8000/api/destinations', destination);
+        }
+
+        console.log('Viaggio e destinazioni inseriti con successo');
+        this.resetForm();
+      } catch (error) {
+        console.error('Errore durante l\'inserimento del viaggio o delle destinazioni:', error.message);
       }
+    },
+    async searchImage(query) {
+      try {
+        const response = await axios.get(`https://api.unsplash.com/search/photos`, {
+          params: {
+            query: query,
+            client_id: '-nO5SFSiXLWTJOWDBF533A9OGkaT-fIonawVoXEGIQg', // Sostituisci con la tua chiave API
+            per_page: 5
+          }
+        });
 
-      console.log('Viaggio e destinazioni inseriti con successo');
-      this.resetForm();
-    } catch (error) {
-      console.error('Errore durante l\'inserimento del viaggio o delle destinazioni:', error.message);
-    }
-},
+        this.imageResults = response.data.results; // Imposta i risultati della ricerca
+      } catch (error) {
+        console.error('Errore durante la ricerca delle immagini:', error.message);
+      }
+    },
+    selectImage(imageUrl) {
+      this.form.image_url = imageUrl;
+    },
     addDestination() {
       this.form.destinations.push({
         destination_name: '',
@@ -160,81 +186,138 @@ export default {
           }
         ]
       };
+      this.imageResults = []; // Resetta i risultati dell'immagine
     }
   }
 };
+</script>
 
-  </script>
-  
-  <style lang="scss">
+<style lang="scss" scoped>
 .create-travel-container {
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  background-color: #f7f9fc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-  h1, h2, h3 {
-    color: #333;
-  }
+h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
 
-  .form-group {
-    margin-bottom: 15px;
+h2 {
+  font-size: 24px;
+  margin-top: 30px;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
 
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
+h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #333;
+}
 
-    input, textarea {
-      width: 100%;
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-  }
+.form-group {
+  margin-bottom: 20px;
 
-  .destination-group {
-    background-color: #eef;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-
-  .add-button, .remove-button, .submit-button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-  }
-
-  .remove-button {
-    background-color: #dc3545;
-    margin-top: 15px;
-  }
-
-  .add-button {
-    background-color: #28a745;
+  label {
     display: block;
-    margin-bottom: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
   }
 
-  .submit-button {
-    display: block;
+  input,
+  textarea {
     width: 100%;
-    background-color: #007bff;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    color: #555;
+    transition: border-color 0.3s ease;
   }
 
-  .add-button:hover, .remove-button:hover, .submit-button:hover {
-    background-color: darken(#007bff, 10%);
+  input:focus,
+  textarea:focus {
+    border-color: #007bff;
+    outline: none;
   }
 }
-  </style>
-  
+
+.image-results {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+
+  img {
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 5px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    transition: border-color 0.3s ease;
+  }
+
+  img:hover {
+    border-color: #007bff;
+  }
+}
+
+.destination-group {
+  background-color: #eef5ff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border-left: 5px solid #007bff;
+}
+
+.add-button,
+.remove-button,
+.submit-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.add-button:hover,
+.remove-button:hover,
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.remove-button {
+  background-color: #dc3545;
+  margin-top: 15px;
+}
+
+.remove-button:hover {
+  background-color: #c82333;
+}
+
+.submit-button {
+  margin-top: 30px;
+  background-color: #28a745;
+}
+
+.submit-button:hover {
+  background-color: #218838;
+}
+</style>
