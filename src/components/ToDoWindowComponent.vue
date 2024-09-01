@@ -97,7 +97,7 @@ export default {
 </script>
 
   
-<style lang="scss">
+<style lang="scss" scoped>
 .todo-window {
   background-color: #f9f9f9;
   border-radius: 20px;

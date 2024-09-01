@@ -8,7 +8,7 @@ export default {
     name: 'MainWindowComponents',
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
     section {
         width: 100%;
     }

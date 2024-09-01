@@ -18,7 +18,7 @@ export default {
     name: 'SidebarComponent',
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
     .occ{
         width: 100px;
         height: 100vh;

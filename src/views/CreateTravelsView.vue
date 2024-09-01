@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="create-travel-container">
     <h1>Inserisci un Nuovo Viaggio</h1>
     <form @submit.prevent="submitForm" class="travel-form">
@@ -55,6 +55,24 @@
         </div>
 
         <div class="form-group">
+          <label for="autocomplete">Cerca Luogo:</label>
+          <location-autocomplete
+            :inputId="'autocomplete-' + index"
+            :onPlaceSelected="location => updateCoordinates(index, location)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="latitude">Latitudine:</label>
+          <input type="number" step="0.000001" id="latitude" v-model="destination.latitude" readonly />
+        </div>
+
+        <div class="form-group">
+          <label for="longitude">Longitudine:</label>
+          <input type="number" step="0.000001" id="longitude" v-model="destination.longitude" readonly />
+        </div>
+
+        <div class="form-group">
           <label for="image_url">URL Immagine:</label>
           <input type="text" id="image_url" v-model="destination.image_url" required />
         </div>
@@ -69,16 +87,6 @@
           <textarea id="notes" v-model="destination.notes" required></textarea>
         </div>
 
-        <div class="form-group">
-          <label for="latitude">Latitudine:</label>
-          <input type="number" step="0.000001" id="latitude" v-model="destination.latitude" required />
-        </div>
-
-        <div class="form-group">
-          <label for="longitude">Longitudine:</label>
-          <input type="number" step="0.000001" id="longitude" v-model="destination.longitude" required />
-        </div>
-
         <button type="button" @click="removeDestination(index)" class="remove-button">Rimuovi Destinazione</button>
       </div>
 
@@ -90,8 +98,12 @@
 
 <script>
 import axios from 'axios';
+import LocationAutocomplete from '../components/LocationAutocomplete.vue';
 
 export default {
+  components: {
+    LocationAutocomplete,
+  },
   data() {
     return {
       form: {
@@ -109,11 +121,11 @@ export default {
             food: '',
             notes: '',
             latitude: '',
-            longitude: ''
-          }
-        ]
+            longitude: '',
+          },
+        ],
       },
-      imageResults: [] // Definisci imageResults qui
+      imageResults: [], // Definisci imageResults qui
     };
   },
   methods: {
@@ -130,7 +142,7 @@ export default {
         console.log('Viaggio e destinazioni inseriti con successo');
         this.resetForm();
       } catch (error) {
-        console.error('Errore durante l\'inserimento del viaggio o delle destinazioni:', error.message);
+        console.error("Errore durante l'inserimento del viaggio o delle destinazioni:", error.message);
       }
     },
     async searchImage(query) {
@@ -139,8 +151,8 @@ export default {
           params: {
             query: query,
             client_id: '-nO5SFSiXLWTJOWDBF533A9OGkaT-fIonawVoXEGIQg', // Sostituisci con la tua chiave API
-            per_page: 5
-          }
+            per_page: 5,
+          },
         });
 
         this.imageResults = response.data.results; // Imposta i risultati della ricerca
@@ -160,7 +172,7 @@ export default {
         food: '',
         notes: '',
         latitude: '',
-        longitude: ''
+        longitude: '',
       });
     },
     removeDestination(index) {
@@ -182,13 +194,17 @@ export default {
             food: '',
             notes: '',
             latitude: '',
-            longitude: ''
-          }
-        ]
+            longitude: '',
+          },
+        ],
       };
       this.imageResults = []; // Resetta i risultati dell'immagine
-    }
-  }
+    },
+    updateCoordinates(index, location) {
+      this.form.destinations[index].latitude = location.latitude;
+      this.form.destinations[index].longitude = location.longitude;
+    },
+  },
 };
 </script>
 
@@ -272,29 +288,18 @@ h3 {
   }
 }
 
-.destination-group {
-  background-color: #eef5ff;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  border-left: 5px solid #007bff;
-}
-
 .add-button,
 .remove-button,
 .submit-button {
   background-color: #007bff;
   color: #fff;
-  padding: 12px 20px;
+  padding: 10px 15px;
   border: none;
   border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 18px;
+  margin-top: 10px;
   transition: background-color 0.3s ease;
-  margin-top: 20px;
-  display: block;
-  width: 100%;
-  text-align: center;
 }
 
 .add-button:hover,
@@ -303,21 +308,11 @@ h3 {
   background-color: #0056b3;
 }
 
-.remove-button {
-  background-color: #dc3545;
-  margin-top: 15px;
-}
-
-.remove-button:hover {
-  background-color: #c82333;
-}
-
-.submit-button {
-  margin-top: 30px;
-  background-color: #28a745;
-}
-
-.submit-button:hover {
-  background-color: #218838;
+.destination-group {
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
