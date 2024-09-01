@@ -58,24 +58,55 @@ export default {
   </script>
   
   <style scoped>
-.travel {
-  color: white;
-}
-
-.destinations {
-  margin-top: 20px;
-}
-
-.destination {
-  background-color: #eee;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.destination img {
-  max-width: 100%;
-  height: auto;
-}
+  .travel {
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    margin: 10px 0;
+    line-height: 1.5;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  .destinations {
+    margin-top: 20px;
+  }
+  
+  .destination {
+    background-color: #f9f9f9;
+    border: 1px solid #1d1d1d;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #1d1d1d;
+  }
+  
+  .destination h3 {
+    font-size: 1.5em;
+    margin-top: 0;
+  }
+  
+  .destination p {
+    margin: 5px 0;
+  }
+  
+  .destination img {
+    border-radius: 4px;
+  }
+  
   </style>
   

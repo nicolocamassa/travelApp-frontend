@@ -31,9 +31,7 @@
           </li>
           <li>
             <TicketWindowComponent />
-            <div class="notes-window">
-
-            </div>
+            <NotesComponent />
           </li>
         </ul>
         <p v-else>Loading...</p>
@@ -53,6 +51,7 @@ import axios from 'axios';
 import ToDoWindowComponent from '../components/ToDoWindowComponent.vue';
 import CalendarComponent from '../components/CalendarComponent.vue';
 import TicketWindowComponent from '../components/TicketWindowComponent.vue';
+import NotesComponent from '../components/NotesComponent.vue';
 
 export default {
   name: 'TravelsSectionComponent',
@@ -67,7 +66,8 @@ export default {
   components: {
     ToDoWindowComponent,
     CalendarComponent,
-    TicketWindowComponent
+    TicketWindowComponent,
+    NotesComponent
   },
   created() {
     this.fetchTravels();
