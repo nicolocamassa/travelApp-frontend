@@ -1,29 +1,43 @@
-# travelApp-frontend
+# Travel App
 
-This template should help get you started developing with Vue 3 in Vite.
+## Introduzione
 
-## Recommended IDE Setup
+Travel App è un'applicazione web per la pianificazione e gestione dei viaggi. Permette di suddividere un viaggio in giornate e tappe, con dettagli come titoli, descrizioni, date, immagini, cibo, curiosità e molto altro. Le tappe possono essere visualizzate gli utenti possono tenere traccia della loro progressione.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Obiettivo
 
-## Customize configuration
+Compiere delle scelte progettuali e saperle motivare, documentare e presentare, inclusa la gestione della persistenza dei dati e l'implementazione di funzionalità aggiuntive come note e valutazioni.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
 
-```sh
-npm install
-```
+## Installazione
 
-### Compile and Hot-Reload for Development
+1. **Clona il repository**:
+    ```bash
+    git clone https://github.com/nicolocamassa/travelApp-frontend.git
+    ```
 
-```sh
-npm run dev
-```
+2. **Naviga nella cartella del progetto**:
+    ```bash
+    cd travel-app
+    ```
 
-### Compile and Minify for Production
+3. **Installa le dipendenze**:
+    ```bash
+    npm install
+    ```
 
-```sh
-npm run build
-```
+4. **Avvia l'applicazione**:
+    ```bash
+    npm run dev
+    ```
+
+5. **Apri il browser** e visita il sito per vedere l'app in azione.
+
+## Uso
+
+- **Creazione di un viaggio**: Utilizza la card "Create New Travel" per aggiungere un nuovo viaggio.
+- **Visualizzazione dei dettagli**: Clicca sui viaggi esistenti per visualizzare dettagli e tappe.
+- **Gestione delle tappe**: Aggiungi dettagli e note alle tappe e visualizzale su una mappa.
+
+
