@@ -30,9 +30,7 @@
             <CalendarComponent /> 
           </li>
           <li>
-            <div class="ticket-window">
-
-            </div>
+            <TicketWindowComponent />
             <div class="notes-window">
 
             </div>
@@ -54,6 +52,7 @@ import axios from 'axios';
 
 import ToDoWindowComponent from '../components/ToDoWindowComponent.vue';
 import CalendarComponent from '../components/CalendarComponent.vue';
+import TicketWindowComponent from '../components/TicketWindowComponent.vue';
 
 export default {
   name: 'TravelsSectionComponent',
@@ -67,7 +66,8 @@ export default {
   },
   components: {
     ToDoWindowComponent,
-    CalendarComponent
+    CalendarComponent,
+    TicketWindowComponent
   },
   created() {
     this.fetchTravels();
@@ -91,13 +91,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ticket-window{
-  width: calc(100vw - (100vw + 15px - (100vw - (340px * 4) - 40px)));
-  height: 180px;
-  min-width: 300px;
-  background-color: #368DFF;
-  border-radius: 20px;
-}
 
 .notes-window{
   width: calc(100vw - (100vw + 15px - (100vw - (340px * 4) - 40px)));
@@ -106,6 +99,7 @@ export default {
   background-color: #ffffff;
   border-radius: 20px;
   margin-top: 20px;
+  z-index: 999;
 }
 
 .row {
